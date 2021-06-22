@@ -1,7 +1,7 @@
 import sys
 import csv
 
-class CsGo:
+class DoCsv:
     def __init__(self):
         self.file_content = []
 
@@ -13,5 +13,5 @@ class CsGo:
                 print(line)
 
 
-printuj = CsGo()
+printuj = DoCsv()
 printuj.read()
