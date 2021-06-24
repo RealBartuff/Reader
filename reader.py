@@ -1,51 +1,43 @@
-
+import sys
 import csv
-import pickle
 import json
 
-from sys import argv
 
-file_content = []
-main_file = argv[1]
+class DoCsv:
+    def __init__(self):
+        self.file_content = []
 
-def load_csv(main_file):
-    with open(main_file, "r") as file:
-        reader = csv.reader(file)
-        for line in reader:
-            file_content.append(line)
-        return file_content
+    def run_csv(self):
+        with open(sys.argv[1], "r") as file:
+            reader = csv.reader(file)
+            for line in reader:
+                self.file_content.append(line)
 
-def load_json(main_file):
-    reader = main_file.read()
-    file_content_2 = json.loads(reader)
+        for line in self.file_content:
+            print(line)
 
-def save_csv(main_file, file_content):
-    with open(main_file, "w", newline="") as file:
-        writer = csv.writer(file)
-        for line in file_content:
-            writer.writerow(line)
+        for param in sys.argv[3:]:
+            param_list = param.split(",")
+            self.file_content[int(param_list[0]) - 1][int(param_list[1]) - 1] = param_list[2]
 
-
-for param in argv[3:]:
-    param_list = param.split(",")
-    file_content[int(param_list[0])-1][int(param_list[1])-1] = param_list[2]
+        with open(sys.argv[2], "w", newline="") as file:
+            writer = csv.writer(file)
+            for line in self.file_content:
+                writer.writerow(line)
 
 
-def save_json(main_file, file_content):
-    with open(main_file, "w", newline="") as file:
-        file_content_json = json.dumps(file_content)
-        file.write(file_content_json)
+"""class DoJson:
+    def __init__(self):
+        self.file_content = []
 
-def ext(main_file, file_content):
-    main_file_list = main_file.split(".")
-    extension = main_file_list[-1]
-    if extension == "csv":
-        save_csv(main_file, file_content)
-    elif extension == "json":
-        save_json(main_file, file_content)
+    def run_json(self):
+        with open(sys.argv[1], "r") as file:
+            reader = file.read()
+            self.file_content = json.loads(reader)
+
+        for line in self.file_content:
+            print(line)"""
 
 
-"""with open(argv[2], "w") as file:
-    print(json.dumps(file_content))
-    file_content_json = json.dumps(file_content)
-    file.write(file_content_json)"""
+printer = DoCsv()
+printer.run_csv()
